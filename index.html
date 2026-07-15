@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Imran Ahamed — Applied AI/ML, from detection to proof</title>
+<meta name="description" content="Imran Ahamed builds applied AI/ML and agentic security systems that don't stop at detection — they close the threat, with a human in command and evidence you can prove. Co-Founder & Head of AI/ML at Vezran." />
+<meta property="og:title" content="Imran Ahamed — Applied AI/ML, from detection to proof" />
+<meta property="og:description" content="Production ML + agentic security. Co-Founder & Head of AI/ML at Vezran, building Zyberpol." />
+<meta property="og:type" content="website" />
+<meta name="theme-color" content="#0A0E15" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#0A0E15;
+    --bg-2:#0C111A;
+    --surface:#11161F;
+    --surface-2:#161C27;
+    --line:#212A38;
+    --line-soft:#1A222E;
+    --text:#E7EDF6;
+    --muted:#8A99AE;
+    --muted-2:#5F6E82;
+    --accent:#22D3EE;
+    --accent-ink:#0A0E15;
+    --accent-dim:rgba(34,211,238,.12);
+    --accent-line:rgba(34,211,238,.30);
+    --live:#34D399;
+    --font-sans:"Geist",system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --font-mono:"Geist Mono",ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+    --maxw:1120px;
+    --pad:clamp(20px,5vw,40px);
+    --r:14px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  body{
+    margin:0;background:var(--bg);color:var(--text);
+    font-family:var(--font-sans);font-size:17px;line-height:1.65;
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+    overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3{text-wrap:balance;margin:0;letter-spacing:-.02em;font-weight:700}
+  p{margin:0}
+  ::selection{background:var(--accent);color:var(--accent-ink)}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+
+  .wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:var(--pad)}
+  .mono{font-family:var(--font-mono)}
+  .eyebrow{
+    font-family:var(--font-mono);font-size:12.5px;font-weight:500;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--accent);
+    display:inline-flex;align-items:center;gap:.6em;
+  }
+  .eyebrow::before{content:"";width:22px;height:1px;background:var(--accent-line)}
+  .muted{color:var(--muted)}
+
+  /* ---------- nav ---------- */
+  header.nav{position:fixed;inset:0 0 auto 0;z-index:50;border-bottom:1px solid transparent;transition:background .3s,border-color .3s,backdrop-filter .3s}
+  header.nav.scrolled{background:rgba(10,14,21,.72);backdrop-filter:blur(12px) saturate(140%);border-bottom-color:var(--line-soft)}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:64px;max-width:var(--maxw);margin-inline:auto;padding-inline:var(--pad)}
+  .brand{font-family:var(--font-mono);font-weight:600;font-size:15px;letter-spacing:-.01em;display:flex;align-items:center;gap:9px}
+  .brand .dot{width:8px;height:8px;border-radius:50%;background:var(--live);box-shadow:0 0 0 0 rgba(52,211,153,.5);animation:pulse 2.4s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(52,211,153,.45)}70%{box-shadow:0 0 0 7px rgba(52,211,153,0)}100%{box-shadow:0 0 0 0 rgba(52,211,153,0)}}
+  .nav-links{display:flex;align-items:center;gap:6px}
+  .nav-links a{font-family:var(--font-mono);font-size:13px;color:var(--muted);padding:8px 12px;border-radius:8px;transition:color .2s,background .2s}
+  .nav-links a:hover{color:var(--text);background:var(--surface)}
+  .nav-cta{color:var(--accent-ink)!important;background:var(--accent);font-weight:600}
+  .nav-cta:hover{background:#5fe2f4!important;color:var(--accent-ink)!important}
+  .nav-toggle{display:none;background:none;border:1px solid var(--line);color:var(--text);width:40px;height:38px;border-radius:9px;font-family:var(--font-mono);cursor:pointer}
+
+  /* ---------- hero ---------- */
+  .hero{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:center;padding-top:64px;overflow:hidden}
+  #signal{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+  .hero::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+    background:radial-gradient(120% 90% at 15% 20%,transparent 40%,var(--bg) 100%),
+               linear-gradient(180deg,transparent 60%,var(--bg) 100%)}
+  .hero-in{position:relative;z-index:2;width:100%}
+  .hero h1{font-size:clamp(2.6rem,7vw,5.1rem);line-height:1.02;font-weight:800;margin:.5em 0 .38em;max-width:16ch}
+  .hero h1 .accent{color:var(--accent)}
+  .hero .lead{font-size:clamp(1.05rem,2vw,1.32rem);color:var(--muted);max-width:60ch;line-height:1.62}
+  .hero .lead strong{color:var(--text);font-weight:600}
+  .cta-row{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
+  .btn{font-family:var(--font-mono);font-size:14px;font-weight:600;padding:13px 22px;border-radius:11px;border:1px solid var(--line);color:var(--text);display:inline-flex;align-items:center;gap:9px;transition:transform .15s,border-color .2s,background .2s,color .2s;cursor:pointer;background:transparent}
+  .btn:hover{transform:translateY(-2px)}
+  .btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+  .btn.primary:hover{background:#5fe2f4}
+  .btn.ghost:hover{border-color:var(--accent-line);color:var(--accent)}
+  .btn .arrow{transition:transform .2s}
+  .btn:hover .arrow{transform:translateX(3px)}
+  .statusline{margin-top:40px;font-family:var(--font-mono);font-size:13.5px;color:var(--muted);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .statusline .live{width:8px;height:8px;border-radius:50%;background:var(--live);animation:pulse 2.4s infinite;flex:none}
+  .statusline b{color:var(--text);font-weight:600}
+
+  /* ---------- section shell ---------- */
+  section{position:relative;padding-block:clamp(64px,10vw,120px)}
+  .sec-head{margin-bottom:44px}
+  .sec-head h2{font-size:clamp(1.7rem,4vw,2.5rem);font-weight:700;margin-top:16px;line-height:1.1}
+  .sec-head p{color:var(--muted);max-width:56ch;margin-top:14px;font-size:1.05rem}
+  .rule{height:1px;background:linear-gradient(90deg,var(--line),transparent);border:0;margin:0}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+
+  /* ---------- stats ---------- */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line-soft);border:1px solid var(--line-soft);border-radius:var(--r);overflow:hidden}
+  .stat{background:var(--bg-2);padding:26px 22px}
+  .stat .n{font-family:var(--font-mono);font-size:clamp(1.9rem,4vw,2.6rem);font-weight:600;color:var(--text);letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1}
+  .stat .n .accent{color:var(--accent)}
+  .stat .l{margin-top:10px;font-size:13.5px;color:var(--muted);line-height:1.4}
+
+  /* ---------- loop ---------- */
+  .loop{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch}
+  .loop .step{flex:1 1 150px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 16px;position:relative;transition:border-color .25s,transform .25s,background .25s}
+  .loop .step:hover{border-color:var(--accent-line);transform:translateY(-3px);background:var(--surface-2)}
+  .loop .step .k{font-family:var(--font-mono);font-size:11.5px;color:var(--accent);letter-spacing:.12em;text-transform:uppercase}
+  .loop .step .v{margin-top:8px;font-size:14.5px;color:var(--muted);line-height:1.45}
+  .loop .step .num{position:absolute;top:14px;right:14px;font-family:var(--font-mono);font-size:12px;color:var(--muted-2)}
+  .build-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:start}
+  .build-card{background:linear-gradient(180deg,var(--surface),var(--bg-2));border:1px solid var(--line);border-radius:var(--r);padding:30px}
+  .build-card h3{font-size:1.35rem;margin-bottom:12px}
+  .build-card .tag{display:inline-block;font-family:var(--font-mono);font-size:11px;color:var(--accent);background:var(--accent-dim);border:1px solid var(--accent-line);padding:4px 10px;border-radius:99px;letter-spacing:.06em}
+  .build-card p{color:var(--muted);margin-top:16px;font-size:1rem}
+  .build-links{display:flex;gap:18px;margin-top:22px;font-family:var(--font-mono);font-size:13px}
+  .build-links a{color:var(--accent);display:inline-flex;gap:6px;align-items:center;border-bottom:1px solid transparent;transition:border-color .2s}
+  .build-links a:hover{border-bottom-color:var(--accent-line)}
+
+  /* ---------- work bento ---------- */
+  .bento{display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:26px;transition:border-color .25s,transform .25s,background .25s;position:relative;overflow:hidden;display:flex;flex-direction:column}
+  .card::before{content:"";position:absolute;inset:0;background:radial-gradient(80% 60% at 100% 0%,var(--accent-dim),transparent 70%);opacity:0;transition:opacity .3s}
+  .card:hover{border-color:var(--accent-line);transform:translateY(-3px);background:var(--surface-2)}
+  .card:hover::before{opacity:1}
+  .card .kicker{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-2)}
+  .card h3{font-size:1.28rem;margin-top:12px}
+  .card p{color:var(--muted);margin-top:12px;font-size:.98rem;flex:1}
+  .card .tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:20px}
+  .card .tags span{font-family:var(--font-mono);font-size:11px;color:var(--muted);border:1px solid var(--line);padding:3px 9px;border-radius:7px}
+  .col-4{grid-column:span 4}.col-3{grid-column:span 3}.col-2{grid-column:span 2}.col-6{grid-column:span 6}
+
+  /* ---------- oss ---------- */
+  .oss-top{display:flex;flex-wrap:wrap;gap:14px 34px;align-items:baseline;margin-bottom:30px}
+  .oss-top .big{font-family:var(--font-mono);font-size:clamp(2rem,5vw,2.8rem);color:var(--text);font-weight:600;letter-spacing:-.03em}
+  .oss-top .big .accent{color:var(--accent)}
+  .oss-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .repo{display:flex;align-items:center;justify-content:space-between;gap:14px;background:var(--bg-2);border:1px solid var(--line-soft);border-radius:11px;padding:16px 18px;font-family:var(--font-mono);transition:border-color .2s,background .2s}
+  .repo:hover{border-color:var(--accent-line);background:var(--surface)}
+  .repo .nm{font-size:14.5px;color:var(--text)}
+  .repo .rl{font-size:11.5px;color:var(--muted);margin-top:3px}
+  .repo .pr{font-size:12px;color:var(--accent);white-space:nowrap;font-variant-numeric:tabular-nums}
+
+  /* ---------- writing ---------- */
+  .writing{display:grid;grid-template-columns:1.4fr 1fr;gap:16px}
+  .feat{background:linear-gradient(180deg,var(--surface),var(--bg-2));border:1px solid var(--line);border-radius:var(--r);padding:30px;display:flex;flex-direction:column;transition:border-color .25s}
+  .feat:hover{border-color:var(--accent-line)}
+  .feat .meta{font-family:var(--font-mono);font-size:12px;color:var(--muted-2);letter-spacing:.05em}
+  .feat h3{font-size:1.5rem;margin:14px 0;line-height:1.2}
+  .feat p{color:var(--muted)}
+  .feat .rd{margin-top:auto;padding-top:22px;font-family:var(--font-mono);font-size:13px;color:var(--accent)}
+  .notes{display:flex;flex-direction:column;gap:12px}
+  .note{background:var(--bg-2);border:1px solid var(--line-soft);border-radius:12px;padding:20px 22px;transition:border-color .2s,background .2s}
+  .note:hover{border-color:var(--accent-line);background:var(--surface)}
+  .note .meta{font-family:var(--font-mono);font-size:11.5px;color:var(--muted-2)}
+  .note h4{font-size:1.05rem;margin:8px 0 0;font-weight:600}
+
+  /* ---------- contact ---------- */
+  .contact{text-align:center}
+  .contact h2{font-size:clamp(2.2rem,6vw,4rem);font-weight:800;line-height:1.05;margin-bottom:20px}
+  .contact h2 .accent{color:var(--accent)}
+  .contact p{color:var(--muted);max-width:52ch;margin:0 auto 34px;font-size:1.1rem}
+  .socials{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+  .soc{font-family:var(--font-mono);font-size:14px;color:var(--text);border:1px solid var(--line);padding:12px 20px;border-radius:11px;transition:border-color .2s,color .2s,transform .15s,background .2s}
+  .soc:hover{border-color:var(--accent-line);color:var(--accent);transform:translateY(-2px);background:var(--surface)}
+
+  footer{border-top:1px solid var(--line-soft);padding-block:34px;margin-top:40px}
+  .foot-in{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;align-items:center;font-family:var(--font-mono);font-size:12.5px;color:var(--muted-2)}
+  .foot-in .k{color:var(--muted)}
+
+  /* ---------- responsive ---------- */
+  @media (max-width:900px){
+    .build-grid{grid-template-columns:1fr}
+    .writing{grid-template-columns:1fr}
+    .oss-grid{grid-template-columns:repeat(2,1fr)}
+    .col-4,.col-3,.col-2{grid-column:span 3}
+    .bento{grid-template-columns:repeat(3,1fr)}
+  }
+  @media (max-width:680px){
+    .nav-links{position:fixed;inset:64px 0 auto 0;flex-direction:column;align-items:stretch;gap:4px;background:rgba(10,14,21,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:14px var(--pad) 22px;transform:translateY(-140%);transition:transform .3s ease;z-index:40}
+    .nav-links.open{transform:none}
+    .nav-links a{padding:12px 10px;font-size:15px}
+    .nav-toggle{display:block}
+    .stats{grid-template-columns:repeat(2,1fr)}
+    .oss-grid{grid-template-columns:1fr}
+    .bento{grid-template-columns:1fr}
+    .col-4,.col-3,.col-2,.col-6{grid-column:span 1}
+    body{font-size:16px}
+  }
+</style>
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a class="brand" href="#top"><span class="dot" aria-hidden="true"></span>imran ahamed</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false">::</button>
+    <nav class="nav-links" id="navLinks">
+      <a href="#building">Building</a>
+      <a href="#work">Work</a>
+      <a href="#oss">Open Source</a>
+      <a href="#writing">Writing</a>
+      <a class="nav-cta" href="#contact">Get in touch</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <canvas id="signal" aria-hidden="true"></canvas>
+    <div class="hero-in wrap">
+      <span class="eyebrow">Co-Founder &amp; Head of AI/ML · Vezran</span>
+      <h1>Applied AI/ML, from detection to <span class="accent">proof</span>.</h1>
+      <p class="lead">I build production ML and agentic security systems that don't stop at spotting the threat — they <strong>close it</strong>, with a human in command and evidence you can hand a regulator. Eight years shipping real systems; now building the SOC that acts, not just alerts.</p>
+      <div class="cta-row">
+        <a class="btn primary" href="#work">See the work <span class="arrow">→</span></a>
+        <a class="btn ghost" href="#contact">Get in touch</a>
+      </div>
+      <div class="statusline">
+        <span class="live" aria-hidden="true"></span>
+        <span><b>Currently:</b> building Zyberpol — an agentic SOC that reasons, acts, and proves.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section id="stats" style="padding-top:0">
+    <div class="wrap">
+      <div class="stats reveal">
+        <div class="stat"><div class="n">8<span class="accent">+</span></div><div class="l">years shipping<br>production ML</div></div>
+        <div class="stat"><div class="n">26<span class="accent">+</span></div><div class="l">merged pull requests<br>to core OSS libraries</div></div>
+        <div class="stat"><div class="n">1</div><div class="l">agentic SOC platform<br>in production</div></div>
+        <div class="stat"><div class="n">3</div><div class="l">companies —<br>2 senior roles, 1 founded</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BUILDING -->
+  <section id="building">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">Building</span>
+        <h2>The part everyone skips: closing the threat, and proving it.</h2>
+        <p>Most AI security stops at <em>"we found something."</em> At Vezran I lead the AI/ML behind <strong>Zyberpol</strong> — an agentic security-operations layer that takes an incident all the way to resolved, with a human approving the consequential moves and a tamper-proof record at the end.</p>
+      </div>
+      <div class="build-grid">
+        <div class="build-card reveal">
+          <span class="tag">ZYBERPOL · AGENTIC SOC</span>
+          <h3 style="margin-top:16px">Detection got cheap. Trusted closure didn't.</h3>
+          <p>Zyberpol sits on top of the security tools a team already runs — identity, endpoint, cloud, SIEM — correlates the noise into a handful of real incidents, recommends the safest containment, routes consequential actions through a human, then verifies the fix and exports proof an auditor accepts. The model is rented and swappable; the control layer and its governance are the moat.</p>
+          <div class="build-links">
+            <a href="https://zyberpol.com" target="_blank" rel="noopener">zyberpol.com <span aria-hidden="true">↗</span></a>
+            <a href="https://vezran.com" target="_blank" rel="noopener">vezran.com <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+        <div class="loop reveal" role="list" aria-label="The response loop">
+          <div class="step" role="listitem"><span class="num">01</span><div class="k">Detect</div><div class="v">Correlate alert noise into a few high-priority incidents.</div></div>
+          <div class="step" role="listitem"><span class="num">02</span><div class="k">Decide</div><div class="v">Auto-gather evidence; recommend the safest containment.</div></div>
+          <div class="step" role="listitem"><span class="num">03</span><div class="k">Approve</div><div class="v">Route consequential actions through a human in command.</div></div>
+          <div class="step" role="listitem"><span class="num">04</span><div class="k">Act &amp; verify</div><div class="v">Execute, then confirm the fix actually worked.</div></div>
+          <div class="step" role="listitem"><span class="num">05</span><div class="k">Prove</div><div class="v">Export a tamper-proof record for audits and insurers.</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule wrap" style="max-width:var(--maxw)" />
+
+  <!-- WORK -->
+  <section id="work">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">Selected work</span>
+        <h2>Systems shipped, and risks found.</h2>
+        <p>From agentic security platforms to production ML at enterprise scale, to coordinated vulnerability disclosures in the tools everyone builds on.</p>
+      </div>
+      <div class="bento">
+        <article class="card col-4 reveal">
+          <span class="kicker">Vezran · in production</span>
+          <h3>Zyberpol — agentic security operations</h3>
+          <p>An agentic SOC that investigates across every console and executes human-approved fixes from one screen — moving teams from monitoring to mitigation. Identity-first, human-approved, proof-native.</p>
+          <div class="tags"><span>agentic AI</span><span>multi-agent</span><span>governance</span><span>SOC</span></div>
+        </article>
+        <article class="card col-2 reveal">
+          <span class="kicker">Security research</span>
+          <h3>Adversarial AI &amp; disclosure</h3>
+          <p>Coordinated disclosures in HuggingFace Transformers, and benchmarks probing prompt-injection robustness with DSPy and AgentDojo.</p>
+          <div class="tags"><span>red-teaming</span><span>PyRIT</span><span>evals</span></div>
+        </article>
+        <article class="card col-3 reveal">
+          <span class="kicker">Starbucks · Sr. Data Scientist</span>
+          <h3>Contact-center NLP at scale</h3>
+          <p>Production natural-language systems for a global contact-center operation — routing, understanding, and surfacing signal from millions of customer interactions.</p>
+          <div class="tags"><span>NLP</span><span>production ML</span><span>scale</span></div>
+        </article>
+        <article class="card col-3 reveal">
+          <span class="kicker">FedEx · Sr. Data Scientist</span>
+          <h3>Package-risk modeling</h3>
+          <p>Risk models across a logistics network at national scale — predicting and flagging shipment risk to protect operations and cost.</p>
+          <div class="tags"><span>risk modeling</span><span>logistics</span><span>MLOps</span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule wrap" style="max-width:var(--maxw)" />
+
+  <!-- OSS -->
+  <section id="oss">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">Open source</span>
+        <h2>I don't just use the tools — I fix them.</h2>
+      </div>
+      <div class="oss-top reveal">
+        <div class="big"><span class="accent">26</span> merged · 4 open</div>
+        <div class="muted mono" style="font-size:13px">pull requests to core ML &amp; AI-security libraries</div>
+      </div>
+      <div class="oss-grid reveal">
+        <a class="repo" href="https://github.com/py-why/dowhy" target="_blank" rel="noopener"><span><span class="nm">dowhy</span><div class="rl">causal inference</div></span><span class="pr">merged</span></a>
+        <a class="repo" href="https://github.com/microsoft/FLAML" target="_blank" rel="noopener"><span><span class="nm">FLAML</span><div class="rl">fast AutoML · Microsoft</div></span><span class="pr">merged</span></a>
+        <a class="repo" href="https://github.com/scikit-learn-contrib/MAPIE" target="_blank" rel="noopener"><span><span class="nm">MAPIE</span><div class="rl">conformal prediction</div></span><span class="pr">merged</span></a>
+        <a class="repo" href="https://github.com/MAIF/shapash" target="_blank" rel="noopener"><span><span class="nm">Shapash</span><div class="rl">model explainability</div></span><span class="pr">merged</span></a>
+        <a class="repo" href="https://github.com/Azure/PyRIT" target="_blank" rel="noopener"><span><span class="nm">PyRIT</span><div class="rl">gen-AI risk · Microsoft</div></span><span class="pr">merged</span></a>
+        <a class="repo" href="https://github.com/scikit-learn-contrib/imbalanced-learn" target="_blank" rel="noopener"><span><span class="nm">imbalanced-learn</span><div class="rl">resampling</div></span><span class="pr">merged</span></a>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule wrap" style="max-width:var(--maxw)" />
+
+  <!-- WRITING -->
+  <section id="writing">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">Writing &amp; notes</span>
+        <h2>Field notes on applied AI.</h2>
+        <p>Long-form on the problems that actually bite in production — and short notes from the bench.</p>
+      </div>
+      <div class="writing">
+        <a class="feat reveal" href="https://imranahamed.substack.com" target="_blank" rel="noopener">
+          <span class="meta">ESSAY · MAY 2026 · agents / eval / production-ml</span>
+          <h3>Evaluating multi-agent systems when ground truth is incomplete</h3>
+          <p>You can't grade what you can't fully observe. How to measure agentic systems when the "correct" answer is partial, contested, or arrives late — and why that's the real bottleneck between a demo and production.</p>
+          <span class="rd">Read the essay →</span>
+        </a>
+        <div class="notes">
+          <a class="note reveal" href="https://imranahamed.substack.com" target="_blank" rel="noopener">
+            <span class="meta">NOTE</span>
+            <h4>The economics of LLM-as-judge</h4>
+          </a>
+          <a class="note reveal" href="https://imranahamed.substack.com" target="_blank" rel="noopener">
+            <span class="meta">NOTE</span>
+            <h4>What pre-LLM ML still gets right</h4>
+          </a>
+          <a class="note reveal" href="https://imranahamed.substack.com" target="_blank" rel="noopener">
+            <span class="meta">SUBSCRIBE</span>
+            <h4>Field notes on applied AI →</h4>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="contact">
+    <div class="wrap">
+      <div class="reveal">
+        <span class="eyebrow" style="justify-content:center">Contact</span>
+        <h2 style="margin-top:20px">Building something at the edge of<br><span class="accent">AI and security?</span></h2>
+        <p>I'm always up for a sharp conversation — agentic systems, LLM security, or turning a security team from monitoring into mitigation.</p>
+        <div class="socials">
+          <a class="soc" href="https://github.com/immu4989" target="_blank" rel="noopener">GitHub</a>
+          <a class="soc" href="https://www.linkedin.com/in/imranahamed" target="_blank" rel="noopener">LinkedIn</a>
+          <a class="soc" href="https://x.com/BeingImmu" target="_blank" rel="noopener">X · @BeingImmu</a>
+          <a class="soc" href="https://scholar.google.com/citations?user=1wuxc7MAAAAJ&hl=en" target="_blank" rel="noopener">Scholar</a>
+          <a class="soc" href="https://imranahamed.substack.com" target="_blank" rel="noopener">Substack</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="foot-in wrap" style="max-width:var(--maxw)">
+    <span><span class="k">imran ahamed</span> · applied ai/ml · dallas, tx</span>
+    <span>© <span id="yr"></span> · from detection to proof</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // year
+  document.getElementById("yr").textContent = new Date().getFullYear();
+
+  // nav scrolled state
+  var nav = document.getElementById("nav");
+  var onScroll = function(){ nav.classList.toggle("scrolled", window.scrollY > 12); };
+  onScroll(); window.addEventListener("scroll", onScroll, {passive:true});
+
+  // mobile menu
+  var toggle = document.getElementById("navToggle");
+  var links = document.getElementById("navLinks");
+  toggle.addEventListener("click", function(){
+    var open = links.classList.toggle("open");
+    toggle.setAttribute("aria-expanded", open ? "true":"false");
+  });
+  links.addEventListener("click", function(e){
+    if(e.target.tagName==="A"){ links.classList.remove("open"); toggle.setAttribute("aria-expanded","false"); }
+  });
+
+  // reveal on scroll
+  var items = document.querySelectorAll(".reveal");
+  if(reduce || !("IntersectionObserver" in window)){
+    items.forEach(function(el){ el.classList.add("in"); });
+  } else {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add("in"); io.unobserve(en.target); } });
+    }, {threshold:.14, rootMargin:"0px 0px -8% 0px"});
+    items.forEach(function(el){ io.observe(el); });
+  }
+
+  // ---- ambient signal field (radar sweep over a dot grid) ----
+  var canvas = document.getElementById("signal");
+  if(!canvas) return;
+  var ctx = canvas.getContext("2d");
+  var dots=[], W=0, H=0, dpr=Math.min(window.devicePixelRatio||1, 2);
+  var mouse={x:0,y:0,active:false};
+  var GAP=42;
+
+  function build(){
+    var rect = canvas.getBoundingClientRect();
+    W=rect.width; H=rect.height;
+    canvas.width=W*dpr; canvas.height=H*dpr;
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    dots=[];
+    for(var x=GAP; x<W; x+=GAP){
+      for(var y=GAP; y<H; y+=GAP){
+        dots.push({x:x, y:y, ph:Math.random()*Math.PI*2});
+      }
+    }
+  }
+  build();
+  window.addEventListener("resize", build);
+  canvas.addEventListener("pointermove", function(e){
+    var r=canvas.getBoundingClientRect(); mouse.x=e.clientX-r.left; mouse.y=e.clientY-r.top; mouse.active=true;
+  });
+  canvas.addEventListener("pointerleave", function(){ mouse.active=false; });
+
+  var cx, cy, ang=0, t=0;
+  function frame(){
+    ctx.clearRect(0,0,W,H);
+    cx = W*0.5; cy = H*0.52;
+    t += 0.0045; ang += 0.006;
+    // sweep direction
+    var sx=Math.cos(ang), sy=Math.sin(ang);
+    for(var i=0;i<dots.length;i++){
+      var d=dots[i];
+      // angle of dot relative to center
+      var dx=d.x-cx, dy=d.y-cy;
+      var da = Math.atan2(dy,dx);
+      var diff = Math.abs(((da-ang+Math.PI)%(Math.PI*2))-Math.PI); // 0..PI
+      var sweep = Math.max(0, 1 - diff/0.5);          // bright near sweep line
+      var tw = 0.28 + 0.20*Math.sin(t*2 + d.ph);      // gentle twinkle
+      // mouse proximity glow
+      var mg=0;
+      if(mouse.active){
+        var mdx=d.x-mouse.x, mdy=d.y-mouse.y, md=Math.sqrt(mdx*mdx+mdy*mdy);
+        mg = Math.max(0, 1 - md/120);
+      }
+      var a = Math.min(0.9, tw*0.5 + sweep*0.85 + mg*0.6);
+      var r = 1 + sweep*1.6 + mg*1.4;
+      var useAccent = sweep>0.15 || mg>0.2;
+      ctx.beginPath();
+      ctx.fillStyle = useAccent ? "rgba(34,211,238,"+a+")" : "rgba(138,153,174,"+(a*0.5)+")";
+      ctx.arc(d.x, d.y, r, 0, Math.PI*2);
+      ctx.fill();
+    }
+    // faint sweep ray
+    var grad=ctx.createLinearGradient(cx,cy, cx+sx*Math.max(W,H), cy+sy*Math.max(W,H));
+    grad.addColorStop(0,"rgba(34,211,238,0.10)");
+    grad.addColorStop(1,"rgba(34,211,238,0)");
+    ctx.strokeStyle=grad; ctx.lineWidth=1.2;
+    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+sx*Math.max(W,H), cy+sy*Math.max(W,H)); ctx.stroke();
+    requestAnimationFrame(frame);
+  }
+  if(reduce){
+    // static: draw one calm frame
+    ctx.clearRect(0,0,W,H);
+    for(var i=0;i<dots.length;i++){ var d=dots[i]; ctx.beginPath(); ctx.fillStyle="rgba(138,153,174,0.18)"; ctx.arc(d.x,d.y,1,0,Math.PI*2); ctx.fill(); }
+  } else {
+    requestAnimationFrame(frame);
+  }
+})();
+</script>
+</body>
+</html>

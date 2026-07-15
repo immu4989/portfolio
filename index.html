@@ -168,6 +168,16 @@
   .note:hover{border-color:var(--accent-line);background:var(--surface)}
   .note .meta{font-family:var(--font-mono);font-size:11.5px;color:var(--muted-2)}
   .note h4{font-size:1.05rem;margin:8px 0 0;font-weight:600}
+  .post-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin-top:16px}
+  .post{background:var(--bg-2);border:1px solid var(--line-soft);border-radius:12px;padding:22px;display:flex;flex-direction:column;transition:border-color .2s,background .2s,transform .2s}
+  .post:hover{border-color:var(--accent-line);background:var(--surface);transform:translateY(-3px)}
+  .post .meta{font-family:var(--font-mono);font-size:11px;color:var(--muted-2);letter-spacing:.04em}
+  .post h3{font-size:1.05rem;margin:10px 0;line-height:1.3;font-weight:600}
+  .post p{color:var(--muted);font-size:.9rem;line-height:1.5;flex:1}
+  .post .rd{margin-top:16px;font-family:var(--font-mono);font-size:12.5px;color:var(--accent)}
+  .subscribe{margin-top:22px;font-family:var(--font-mono);font-size:13.5px}
+  .subscribe a{color:var(--accent);border-bottom:1px solid var(--accent-line);padding-bottom:1px}
+  .subscribe a:hover{color:#5fe2f4}
 
   /* ---------- contact ---------- */
   .contact{text-align:center}
@@ -356,28 +366,45 @@
         <h2>Field notes on applied AI.</h2>
         <p>Long-form on the problems that actually bite in production — and short notes from the bench.</p>
       </div>
-      <div class="writing">
-        <a class="feat reveal" href="https://imranahamed.substack.com" target="_blank" rel="noopener">
-          <span class="meta">ESSAY · MAY 2026 · agents / eval / production-ml</span>
-          <h3>Evaluating multi-agent systems when ground truth is incomplete</h3>
-          <p>You can't grade what you can't fully observe. How to measure agentic systems when the "correct" answer is partial, contested, or arrives late — and why that's the real bottleneck between a demo and production.</p>
-          <span class="rd">Read the essay →</span>
+      <a class="feat reveal" href="https://imranahamed.substack.com/p/my-fraud-detector-scored-100-in-every?r=4spwj0" target="_blank" rel="noopener">
+        <span class="meta">LATEST · JUL 14, 2026 · fraud detection / evals</span>
+        <h3>My fraud detector scored 100% in every language. It wasn't reading any of them.</h3>
+        <p>Defanging the dataset handed the model a shortcut that made it look multilingual. Strip the placeholder and non-Latin scripts collapse — Chinese 1.00 → 0.09, Arabic 0.98 → 0.04. The failure wasn't in the model. It was in the measurement.</p>
+        <span class="rd">Read the essay →</span>
+      </a>
+      <div class="post-grid">
+        <a class="post reveal" href="https://imranahamed.substack.com/p/upgrading-your-ai-model-can-silently?r=4spwj0" target="_blank" rel="noopener">
+          <span class="meta">JUL 13, 2026 · LLM SECURITY</span>
+          <h3>Upgrading your AI model can silently break its security</h3>
+          <p>A more capable model started following attackers' orders. Across eight models, nothing — size, vendor, or capability — predicted which would break.</p>
+          <span class="rd">Read →</span>
         </a>
-        <div class="notes">
-          <a class="note reveal" href="https://imranahamed.substack.com" target="_blank" rel="noopener">
-            <span class="meta">NOTE</span>
-            <h4>The economics of LLM-as-judge</h4>
-          </a>
-          <a class="note reveal" href="https://imranahamed.substack.com" target="_blank" rel="noopener">
-            <span class="meta">NOTE</span>
-            <h4>What pre-LLM ML still gets right</h4>
-          </a>
-          <a class="note reveal" href="https://imranahamed.substack.com" target="_blank" rel="noopener">
-            <span class="meta">SUBSCRIBE</span>
-            <h4>Field notes on applied AI →</h4>
-          </a>
-        </div>
+        <a class="post reveal" href="https://imranahamed.substack.com/p/we-built-a-benchmark-for-ai-written?r=4spwj0" target="_blank" rel="noopener">
+          <span class="meta">JUL 6, 2026 · FRAUD / BENCHMARKS</span>
+          <h3>I built a benchmark for AI-written fraud — and the first result was too good to be true</h3>
+          <p>LureBench. Control for the dataset confound and telling AI-written fraud from human is close to a coin flip. The defensive problem is still open.</p>
+          <span class="rd">Read →</span>
+        </a>
+        <a class="post reveal" href="https://imranahamed.substack.com/p/when-does-prompt-optimization-stop?r=4spwj0" target="_blank" rel="noopener">
+          <span class="meta">JUL 2, 2026 · LLM SECURITY / EVALS</span>
+          <h3>When does prompt optimization stop helping and start hurting security?</h3>
+          <p>Three regimes by base-model strength, with a practitioner decision rule — DSPy optimizers vs AgentDojo prompt-injection attacks.</p>
+          <span class="rd">Read →</span>
+        </a>
+        <a class="post reveal" href="https://imranahamed.substack.com/p/the-dp-lora-silent-corruption-how?r=4spwj0" target="_blank" rel="noopener">
+          <span class="meta">JUN 25, 2026 · DIFFERENTIAL PRIVACY</span>
+          <h3>The DP-LoRA silent corruption: 5 months of broken fine-tuning, hidden in plain sight</h3>
+          <p>A device-placement ordering quirk between opacus, PEFT, and HuggingFace zeroed gradients while noise kept accumulating. What to check in your own setup.</p>
+          <span class="rd">Read →</span>
+        </a>
+        <a class="post reveal" href="https://imranahamed.substack.com/p/does-dspy-prompt-optimization-weaken?r=4spwj0" target="_blank" rel="noopener">
+          <span class="meta">JUN 24, 2026 · LLM SECURITY</span>
+          <h3>Does DSPy prompt optimization weaken adversarial robustness?</h3>
+          <p>Optimizing prompts for accuracy tightens them to the training distribution — and can cost ~20 points of security on the harder attacks.</p>
+          <span class="rd">Read →</span>
+        </a>
       </div>
+      <div class="subscribe reveal">→ <a href="https://imranahamed.substack.com" target="_blank" rel="noopener">Subscribe — field notes on applied AI</a></div>
     </div>
   </section>
 

@@ -79,7 +79,14 @@
   .hero::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
     background:radial-gradient(120% 90% at 15% 20%,transparent 40%,var(--bg) 100%),
                linear-gradient(180deg,transparent 60%,var(--bg) 100%)}
-  .hero-in{position:relative;z-index:2;width:100%}
+  .hero-in{position:relative;z-index:2;width:100%;display:grid;grid-template-columns:1.5fr .85fr;gap:clamp(28px,5vw,56px);align-items:center}
+  .hero-photo{justify-self:center}
+  .hero-photo img{display:block;width:min(320px,74vw);aspect-ratio:1;object-fit:cover;border-radius:20px;border:1px solid var(--line);box-shadow:0 24px 60px -24px rgba(0,0,0,.7), 0 0 70px -22px var(--accent-dim)}
+  @media (max-width:860px){
+    .hero-in{grid-template-columns:1fr;gap:28px}
+    .hero-photo{order:-1;justify-self:start}
+    .hero-photo img{width:180px;border-radius:16px}
+  }
   .hero h1{font-size:clamp(2.6rem,7vw,5.1rem);line-height:1.02;font-weight:800;margin:.5em 0 .38em;max-width:16ch}
   .hero h1 .accent{color:var(--accent)}
   .hero .lead{font-size:clamp(1.05rem,2vw,1.32rem);color:var(--muted);max-width:60ch;line-height:1.62}
@@ -235,16 +242,21 @@
   <section class="hero">
     <canvas id="signal" aria-hidden="true"></canvas>
     <div class="hero-in wrap">
-      <span class="eyebrow">Co-Founder &amp; Head of AI/ML · Vezran</span>
-      <h1>Applied AI/ML, from detection to <span class="accent">proof</span>.</h1>
-      <p class="lead">I build production ML and agentic security systems that don't stop at spotting the threat — they <strong>close it</strong>, with a human in command and evidence you can hand a regulator. Eight years shipping real systems; now building the SOC that acts, not just alerts.</p>
-      <div class="cta-row">
-        <a class="btn primary" href="#work">See the work <span class="arrow">→</span></a>
-        <a class="btn ghost" href="#contact">Get in touch</a>
+      <div class="hero-copy">
+        <span class="eyebrow">Co-Founder &amp; Head of AI/ML · Vezran</span>
+        <h1>Applied AI/ML, from detection to <span class="accent">proof</span>.</h1>
+        <p class="lead">I build production ML and agentic security systems that don't stop at spotting the threat — they <strong>close it</strong>, with a human in command and evidence you can hand a regulator. Eight years shipping real systems; now building the SOC that acts, not just alerts.</p>
+        <div class="cta-row">
+          <a class="btn primary" href="#work">See the work <span class="arrow">→</span></a>
+          <a class="btn ghost" href="#contact">Get in touch</a>
+        </div>
+        <div class="statusline">
+          <span class="live" aria-hidden="true"></span>
+          <span><b>Currently:</b> building Zyberpol — an agentic SOC that reasons, acts, and proves.</span>
+        </div>
       </div>
-      <div class="statusline">
-        <span class="live" aria-hidden="true"></span>
-        <span><b>Currently:</b> building Zyberpol — an agentic SOC that reasons, acts, and proves.</span>
+      <div class="hero-photo">
+        <img src="assets/imran.png" alt="Imran Ahamed" width="320" height="320" loading="eager" />
       </div>
     </div>
   </section>
